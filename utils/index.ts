@@ -1,20 +1,28 @@
+
 import { CarCardProps } from "@/types";
 import { FilterProps } from "@/types";
 
 export async function fetchCars(filters: FilterProps) {
+  const { manufacturer, year, model, limit, fuel } = filters;
 
-    const { manufacturer, year, model,limit, fuel } = filters
+  // Set the required headers for the API request
+  const headers: HeadersInit = {
+    "X-RapidAPI-Key":'275980549dmsh0911061a59d3211p10b070jsn8053123bded0',
+    "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
+  };
 
-   const headers = {
-    'X-RapidAPI-Key': '00b376343emsh1ca114bb573b8c0p1c3814jsn2705bbbbb66a',
-    'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
+  // Set the required headers for the API request
+  const response = await fetch(
+    `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${manufacturer}&year=${year}&model=${model}&limit=${limit}&fuel_type=${fuel}`,
+    {
+      headers: headers,
     }
-    const url = `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${manufacturer}&year=${year}&model=${model}&limit=${limit}&fuel_type=${fuel}}`;
-    const response = await fetch(url, {headers: headers})
+  );
 
-    const result = await response.json()
+  // Parse the response as JSON
+  const result = await response.json();
 
-    return result
+  return result;
 }
 
 export const calculateCarRent = (city_mpg: number, year: number) => {
